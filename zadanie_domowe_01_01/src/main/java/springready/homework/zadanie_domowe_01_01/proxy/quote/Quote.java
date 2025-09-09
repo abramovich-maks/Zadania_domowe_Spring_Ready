@@ -1,0 +1,7 @@
+package springready.homework.zadanie_domowe_01_01.proxy.quote;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record Quote(String type, Value value) {
+}
