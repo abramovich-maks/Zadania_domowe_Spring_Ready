@@ -10,6 +10,8 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+
 @Component
 @Log4j2
 public class QuoteProxy {
@@ -27,20 +29,25 @@ public class QuoteProxy {
     @Value("${quote-server.service.port}")
     String port;
 
-    public String makeRequest() {
-        UriComponentsBuilder uriBuilder = getUriBuilderRandomQuote();
-        return getString(uriBuilder);
+    public String getRandomQuote() {
+        URI uriBuilder = buildRandomQuoteUri();
+        return makeGetRequestQuote(uriBuilder);
     }
 
-    public String makeRequestByNumberQuoter() {
-        UriComponentsBuilder uriBuilder = getUriBuilderByNumberQuoter("5");
-        return getString(uriBuilder);
+    public String getQuoteById(String id) {
+        URI uriBuilder = buildQuoteByIdUri(id);
+        return makeGetRequestQuote(uriBuilder);
     }
 
-    private String getString(UriComponentsBuilder uriBuilder) {
+    public String getAllQuotes() {
+        URI uriBuilder = buildAllQuotesUri();
+        return makeGetRequestQuote(uriBuilder);
+    }
+
+    private String makeGetRequestQuote(URI uri) {
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(
-                    uriBuilder.build().toUri(),
+                    uri,
                     HttpMethod.GET,
                     null,
                     String.class
@@ -54,22 +61,31 @@ public class QuoteProxy {
         return null;
     }
 
-    private UriComponentsBuilder getUriBuilderRandomQuote() {
+    private URI buildRandomQuoteUri() {
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
                 .host(url)
                 .port(port)
-                .path("/api/random");
+                .path("/api/random").build().toUri();
     }
 
-    private UriComponentsBuilder getUriBuilderByNumberQuoter(String number) {
+    private URI buildQuoteByIdUri(String number) {
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
                 .host(url)
                 .port(port)
                 .path("/api")
-                .path("/"+number);
+                .path("/"+number).build().toUri();
+    }
+
+    private URI buildAllQuotesUri() {
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host(url)
+                .port(port)
+                .path("/api").build().toUri();
     }
 }
