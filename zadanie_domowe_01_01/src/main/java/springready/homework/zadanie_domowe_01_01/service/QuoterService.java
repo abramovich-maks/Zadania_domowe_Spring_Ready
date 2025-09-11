@@ -17,21 +17,40 @@ public class QuoterService {
         this.quoteProxy = quoteProxy;
     }
 
-    public void fetchQuote() throws JsonProcessingException {
-        String json = quoteProxy.makeRequest();
-        String jsonByNumber = quoteProxy.makeRequestByNumberQuoter();
-        if (json != null) {
-            Quote quote = mapJsonToQuoteResponse(json);
-            log.info(quote.value());
-        }
+    public void fetchOneQuoterByNumber() throws JsonProcessingException {
+        String jsonByNumber = quoteProxy.getQuoteById("1");
         if (jsonByNumber != null) {
-            Quote quoteByNumber = mapJsonToQuoteResponse(jsonByNumber);
+            Quote quoteByNumber = mapJsonToQuoterResponse(jsonByNumber);
             log.info(quoteByNumber.value());
         }
     }
 
-    private static Quote mapJsonToQuoteResponse(String json) throws JsonProcessingException {
+    public void fetchRandomQuoter() throws JsonProcessingException {
+        String json = quoteProxy.getRandomQuote();
+        if (json != null) {
+            Quote quote = mapJsonToQuoterResponse(json);
+            log.info(quote.value());
+        }
+    }
+
+    public void fetchAllQuoters() throws JsonProcessingException {
+        String jsonAll = quoteProxy.getAllQuotes();
+        if (jsonAll != null) {
+            Quote[] allQuotes = mapJsonToAllQuotersResponse(jsonAll);
+            for (Quote q : allQuotes) {
+                log.info(q.value());
+            }
+        }
+    }
+
+    private static Quote mapJsonToQuoterResponse(String json) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(json, Quote.class);
     }
+
+    private static Quote[] mapJsonToAllQuotersResponse(String json) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(json, Quote[].class);
+    }
+
 }
