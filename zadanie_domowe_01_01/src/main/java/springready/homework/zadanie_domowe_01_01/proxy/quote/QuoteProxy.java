@@ -55,6 +55,11 @@ public class QuoteProxy {
         return makePostRequestQuote(uriBuilder,quote);
     }
 
+    public String deleteQuote(String id) {
+        URI uriBuilder = buildDeleteQuoteUri(id);
+        return makeDeleteRequestQuote(uriBuilder);
+    }
+
     private String makeGetRequestQuote(URI uri) {
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(
@@ -80,6 +85,23 @@ public class QuoteProxy {
                     uri,
                     HttpMethod.POST,
                     objectHttpEntity,
+                    String.class
+            );
+            return exchange.getBody();
+        } catch (RestClientResponseException exception) {
+            log.info("Bad request: " + exception.getStatusText() + " " + exception.getStatusCode().value());
+        } catch (RestClientException exception) {
+            log.info(exception.getMessage());
+        }
+        return null;
+    }
+
+    private String makeDeleteRequestQuote(URI uri) {
+        try {
+            ResponseEntity<String> exchange = restTemplate.exchange(
+                    uri,
+                    HttpMethod.DELETE,
+                    null,
                     String.class
             );
             return exchange.getBody();
@@ -137,5 +159,14 @@ public class QuoteProxy {
                 .port(port)
                 .path("/api/quote")
                 .build().toUri();
+    }
+
+    private URI buildDeleteQuoteUri(String id) {
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host(url)
+                .port(port)
+                .path("/api/quote/"+id).build().toUri();
     }
 }
