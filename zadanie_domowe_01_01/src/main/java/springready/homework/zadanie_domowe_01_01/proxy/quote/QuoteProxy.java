@@ -29,15 +29,7 @@ public class QuoteProxy {
     @Value("${quote-server.service.port}")
     String port;
 
-    public void fetchQuote() throws JsonProcessingException {
-        String json = makeRequest();
-        if (json != null) {
-            Quote quote = mapJsonToQuoteResponse(json);
-            log.info(quote.value());
-        }
-    }
-
-    private String makeRequest() {
+    public String makeRequest() {
         UriComponentsBuilder uriBuilder = getUriBuilder();
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(
@@ -63,12 +55,4 @@ public class QuoteProxy {
                 .port(port)
                 .path("/api/random");
     }
-
-
-    private static Quote mapJsonToQuoteResponse(String json) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(json, Quote.class);
-
-    }
-
 }
