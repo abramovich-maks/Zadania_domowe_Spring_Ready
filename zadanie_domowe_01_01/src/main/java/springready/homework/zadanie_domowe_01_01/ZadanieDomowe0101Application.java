@@ -30,5 +30,6 @@ public class ZadanieDomowe0101Application {
 //        quoterService.fetchRandomQuoter();
 //        quoterService.fetchAllQuoters();
         quoterService.fetchWithRequestParam(1L);
+        quoterService.postQuote("test quoter");
     }
 }
