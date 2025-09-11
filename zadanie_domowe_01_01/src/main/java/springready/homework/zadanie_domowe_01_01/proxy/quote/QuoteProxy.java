@@ -3,6 +3,7 @@ package springready.homework.zadanie_domowe_01_01.proxy.quote;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -60,6 +61,11 @@ public class QuoteProxy {
         return makeDeleteRequestQuote(uriBuilder);
     }
 
+    public String getQuoteWithHeader(){
+        URI uri = buildGetAllWithHeaderQuoteUri();
+        return makeGetRequestQuoteWithHeader(uri);
+    }
+
     private String makeGetRequestQuote(URI uri) {
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(
@@ -102,6 +108,26 @@ public class QuoteProxy {
                     uri,
                     HttpMethod.DELETE,
                     null,
+                    String.class
+            );
+            return exchange.getBody();
+        } catch (RestClientResponseException exception) {
+            log.info("Bad request: " + exception.getStatusText() + " " + exception.getStatusCode().value());
+        } catch (RestClientException exception) {
+            log.info(exception.getMessage());
+        }
+        return null;
+    }
+
+    private String makeGetRequestQuoteWithHeader(URI uri) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("requestId", "AAA");
+        HttpEntity<QuoteRequest> entity = new HttpEntity<>(httpHeaders);
+        try {
+            ResponseEntity<String> exchange = restTemplate.exchange(
+                    uri,
+                    HttpMethod.GET,
+                    entity,
                     String.class
             );
             return exchange.getBody();
@@ -167,6 +193,15 @@ public class QuoteProxy {
                 .scheme("http")
                 .host(url)
                 .port(port)
-                .path("/api/quote/"+id).build().toUri();
+                .path("/api/quote/" + id).build().toUri();
+    }
+
+    private URI buildGetAllWithHeaderQuoteUri() {
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host(url)
+                .port(port)
+                .path("/apiWithHeader").build().toUri();
     }
 }
