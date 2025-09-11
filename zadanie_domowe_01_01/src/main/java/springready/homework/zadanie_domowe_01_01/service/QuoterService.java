@@ -51,6 +51,14 @@ public class QuoterService {
         }
     }
 
+    public void postQuote(String quote) throws JsonProcessingException {
+        String json = quoteProxy.postQuote(quote);
+        if (json != null) {
+            Quote quoteResponse = mapJsonToQuoterResponse(json);
+            log.info(quoteResponse.value());
+        }
+    }
+
     private static Quote mapJsonToQuoterResponse(String json) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(json, Quote.class);
