@@ -6,16 +6,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
-import springready.homework.zadanie_domowe_01_01.proxy.quote.QuoteProxy;
+import springready.homework.zadanie_domowe_01_01.service.QuoterService;
 
 @Log4j2
 @SpringBootApplication
 public class ZadanieDomowe0101Application {
 
-    private final QuoteProxy quoteClient;
+    private final QuoterService quoterService;
 
-    public ZadanieDomowe0101Application(QuoteProxy quoteClient) {
-        this.quoteClient = quoteClient;
+    public ZadanieDomowe0101Application(QuoterService quoterService) {
+        this.quoterService = quoterService;
     }
 
     public static void main(String[] args) {
@@ -26,6 +26,6 @@ public class ZadanieDomowe0101Application {
     @EventListener(ApplicationStartedEvent.class)
     public void run() throws JsonProcessingException {
 
-        quoteClient.fetchQuote();
+        quoterService.fetchQuote();
     }
 }
