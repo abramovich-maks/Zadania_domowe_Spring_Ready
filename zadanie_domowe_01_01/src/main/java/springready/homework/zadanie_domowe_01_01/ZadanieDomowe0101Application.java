@@ -28,8 +28,11 @@ public class ZadanieDomowe0101Application {
 
 //        quoterService.fetchOneQuoterByNumber();
 //        quoterService.fetchRandomQuoter();
-//        quoterService.fetchAllQuoters();
-        quoterService.fetchWithRequestParam(1L);
-        quoterService.postQuote("test quoter");
+        quoterService.fetchAllQuoters();
+//        quoterService.fetchWithRequestParam(1L);
+//        quoterService.postQuote("test quoter");
+        quoterService.deleteQuote("13");
+
+
     }
 }
