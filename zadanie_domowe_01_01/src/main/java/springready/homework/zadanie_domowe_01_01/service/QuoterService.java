@@ -43,6 +43,14 @@ public class QuoterService {
         }
     }
 
+    public void fetchWithRequestParam(Long id) throws JsonProcessingException {
+        String json = quoteProxy.getQuotesWithRequestParam(id);
+        if (json != null) {
+            Quote quote = mapJsonToQuoterResponse(json);
+            log.info(quote.value());
+        }
+    }
+
     private static Quote mapJsonToQuoterResponse(String json) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(json, Quote.class);
