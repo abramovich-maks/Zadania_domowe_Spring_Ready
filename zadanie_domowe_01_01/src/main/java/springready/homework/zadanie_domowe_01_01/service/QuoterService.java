@@ -19,9 +19,14 @@ public class QuoterService {
 
     public void fetchQuote() throws JsonProcessingException {
         String json = quoteProxy.makeRequest();
+        String jsonByNumber = quoteProxy.makeRequestByNumberQuoter();
         if (json != null) {
             Quote quote = mapJsonToQuoteResponse(json);
             log.info(quote.value());
+        }
+        if (jsonByNumber != null) {
+            Quote quoteByNumber = mapJsonToQuoteResponse(jsonByNumber);
+            log.info(quoteByNumber.value());
         }
     }
 
