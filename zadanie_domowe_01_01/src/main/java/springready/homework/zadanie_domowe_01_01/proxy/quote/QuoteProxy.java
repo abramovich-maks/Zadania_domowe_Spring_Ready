@@ -28,7 +28,16 @@ public class QuoteProxy {
     String port;
 
     public String makeRequest() {
-        UriComponentsBuilder uriBuilder = getUriBuilder();
+        UriComponentsBuilder uriBuilder = getUriBuilderRandomQuote();
+        return getString(uriBuilder);
+    }
+
+    public String makeRequestByNumberQuoter() {
+        UriComponentsBuilder uriBuilder = getUriBuilderByNumberQuoter("5");
+        return getString(uriBuilder);
+    }
+
+    private String getString(UriComponentsBuilder uriBuilder) {
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(
                     uriBuilder.build().toUri(),
@@ -45,12 +54,22 @@ public class QuoteProxy {
         return null;
     }
 
-    private UriComponentsBuilder getUriBuilder() {
+    private UriComponentsBuilder getUriBuilderRandomQuote() {
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
                 .host(url)
                 .port(port)
                 .path("/api/random");
+    }
+
+    private UriComponentsBuilder getUriBuilderByNumberQuoter(String number) {
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host(url)
+                .port(port)
+                .path("/api")
+                .path("/"+number);
     }
 }
