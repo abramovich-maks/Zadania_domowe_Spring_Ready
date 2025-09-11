@@ -44,6 +44,11 @@ public class QuoteProxy {
         return makeGetRequestQuote(uriBuilder);
     }
 
+    public String getQuotesWithRequestParam(Long id) {
+        URI uriBuilder = buildQuoteWithRequestParam(id);
+        return makeGetRequestQuote(uriBuilder);
+    }
+
     private String makeGetRequestQuote(URI uri) {
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(
@@ -77,7 +82,7 @@ public class QuoteProxy {
                 .host(url)
                 .port(port)
                 .path("/api")
-                .path("/"+number).build().toUri();
+                .path("/" + number).build().toUri();
     }
 
     private URI buildAllQuotesUri() {
@@ -87,5 +92,15 @@ public class QuoteProxy {
                 .host(url)
                 .port(port)
                 .path("/api").build().toUri();
+    }
+
+    private URI buildQuoteWithRequestParam(Long id) {
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host(url)
+                .port(port)
+                .path("/apiWithRequestParam")
+                .queryParam("id", id).build().toUri();
     }
 }
