@@ -56,6 +56,7 @@ public class QuoterService {
         if (json != null) {
             Quote quoteResponse = mapJsonToQuoterResponse(json);
             log.info(quoteResponse.value());
+            log.info(quoteResponse.type());
         }
     }
 
@@ -64,6 +65,16 @@ public class QuoterService {
         if (json != null) {
             Quote quoteResponse = mapJsonToQuoterResponse(json);
             log.info(quoteResponse.value());
+        }
+    }
+
+    public void getWithHeader() throws JsonProcessingException {
+        String json = quoteProxy.getQuoteWithHeader();
+        if (json != null) {
+            Quote[] allQuotes = mapJsonToAllQuotersResponse(json);
+            for (Quote q : allQuotes) {
+                log.info("{} {}", q.value(), q.type());
+            }
         }
     }
 
