@@ -44,13 +44,15 @@ public class SongsService {
         return responseSongs;
     }
 
-    public void postSong(String song, String artist) throws JsonProcessingException {
+    public SongByIdResponse postSong(String song, String artist) {
         String json = songsProxy.makePostSong(song, artist);
-        if (json != null) {
-            ObjectMapper mapper = new ObjectMapper();
-            SongByIdResponse newSong = mapper.readValue(json, SongByIdResponse.class);
-            log.info("New Song added: " + newSong.song());
+        if (json == null) {
+            log.error(getJsonSongsWasNull());
+            return new SongByIdResponse(new SongEntity("", ""));
         }
+        SongByIdResponse songResponse = songsMapper.mapJsonToSongEntity(json);
+        log.info("New Song added: " + songResponse.song());
+        return songResponse;
     }
 
     public void deleteSongById(String id) throws JsonProcessingException {
