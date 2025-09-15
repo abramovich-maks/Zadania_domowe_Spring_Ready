@@ -26,8 +26,8 @@ public class ZadanieDomowe0201Application {
     @EventListener(ApplicationStartedEvent.class)
     public void run() throws JsonProcessingException {
 //        service.postSong("Tru-la-la","Peppa pig");
-        service.fetchAllSongs();
-//        service.fetchSongById("2");
+//        service.fetchAllSongs();
+        service.fetchSongById("2");
 //        service.deleteSongById("4");
 //        service.putSong("2","Tru-la-la","Peppa pig");
     }

@@ -46,7 +46,7 @@ public class SongsProxy {
         } catch (RestClientException exception) {
             log.info(exception.getMessage());
         }
-        return "";
+        return null;
     }
 
     public String makeGetSongsByIdRequest(String id) {
@@ -69,7 +69,7 @@ public class SongsProxy {
         } catch (RestClientException exception) {
             log.info(exception.getMessage());
         }
-        return "";
+        return null;
     }
 
     public String makePostSong(String song, String artist) {
@@ -94,7 +94,7 @@ public class SongsProxy {
         } catch (RestClientException exception) {
             log.info(exception.getMessage());
         }
-        return "";
+        return null;
     }
 
     public String makeDeleteSongByIdRequest(String id) {
@@ -117,7 +117,7 @@ public class SongsProxy {
         } catch (RestClientException exception) {
             log.info(exception.getMessage());
         }
-        return "";
+        return null;
     }
 
     public String makePutSongByIdRequest(String id, String song, String artist) {
@@ -142,6 +142,6 @@ public class SongsProxy {
         } catch (RestClientException exception) {
             log.info(exception.getMessage());
         }
-        return "";
+        return null;
     }
 }

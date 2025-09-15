@@ -3,6 +3,8 @@ package com.zadanie_domowe.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zadanie_domowe.proxy.ResponseSongs;
+import com.zadanie_domowe.proxy.SongByIdResponse;
+import com.zadanie_domowe.proxy.SongEntity;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,15 @@ public class SongsMapper {
         } catch (JsonProcessingException e) {
             log.error("SongsMapper could not map json");
             return new ResponseSongs(Collections.emptyMap());
+        }
+    }
+
+    public SongByIdResponse mapJsonToSongEntity(String json) {
+        try {
+            return objectMapper.readValue(json, SongByIdResponse.class);
+        } catch (JsonProcessingException e) {
+            log.error("SongsMapper could not map json");
+        return new SongByIdResponse(new SongEntity("", ""));
         }
     }
 }

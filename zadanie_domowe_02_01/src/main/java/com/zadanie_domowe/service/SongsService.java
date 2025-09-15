@@ -25,7 +25,7 @@ public class SongsService {
     public Map<Integer, SongEntity> fetchAllSongs() {
         String json = songsProxy.makeGetAllSongsRequest();
         if (json == null) {
-            log.error("jsonSongs was null");
+            log.error(getJsonSongsWasNull());
             return Collections.emptyMap();
         }
         ResponseSongs responseSongs = songsMapper.mapJsonToSongsResponse(json);
@@ -33,13 +33,15 @@ public class SongsService {
         return responseSongs.songs();
     }
 
-    public void fetchSongById(String id) throws JsonProcessingException {
+    public SongByIdResponse fetchSongById(String id) {
         String json = songsProxy.makeGetSongsByIdRequest(id);
-        if (json != null) {
-            ObjectMapper mapper = new ObjectMapper();
-            SongByIdResponse song = mapper.readValue(json, SongByIdResponse.class);
-            log.info("Song by id:" + id + " - " + song.song());
+        if (json == null) {
+            log.error(getJsonSongsWasNull());
+            return new SongByIdResponse(new SongEntity("", ""));
         }
+        SongByIdResponse responseSongs = songsMapper.mapJsonToSongEntity(json);
+        log.info("Song by id:" + id + " - " + responseSongs);
+        return responseSongs;
     }
 
     public void postSong(String song, String artist) throws JsonProcessingException {
@@ -67,5 +69,9 @@ public class SongsService {
             mapper.readValue(json, ResponseSongs.class);
             log.info("Song with id: " + id + " have been updated");
         }
+    }
+
+    private static String getJsonSongsWasNull() {
+        return "jsonSongs was null";
     }
 }
