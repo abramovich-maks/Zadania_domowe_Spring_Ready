@@ -79,8 +79,8 @@ public class SongsProxy {
                 .host(url)
                 .port(port)
                 .path("/songs");
-        SongInfo newSong = new SongInfo(song, artist);
-        HttpEntity<SongInfo> httpEntity = new HttpEntity<>(newSong);
+        SongEntity newSong = new SongEntity(song, artist);
+        HttpEntity<SongEntity> httpEntity = new HttpEntity<>(newSong);
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(
                     builder.build().toUri(),
@@ -127,8 +127,8 @@ public class SongsProxy {
                 .host(url)
                 .port(port)
                 .path("/songs/" + id);
-        SongInfo newSong = new SongInfo(song, artist);
-        HttpEntity<SongInfo> httpEntity = new HttpEntity<>(newSong);
+        SongEntity newSong = new SongEntity(song, artist);
+        HttpEntity<SongEntity> httpEntity = new HttpEntity<>(newSong);
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(
                     builder.build().toUri(),

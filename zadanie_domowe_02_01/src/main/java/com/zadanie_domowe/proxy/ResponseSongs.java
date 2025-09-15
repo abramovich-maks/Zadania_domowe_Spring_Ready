@@ -5,5 +5,5 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record ResponseSongs(Map<Integer, SongInfo> songs) {
+public record ResponseSongs(Map<Integer, SongEntity> songs) {
 }
