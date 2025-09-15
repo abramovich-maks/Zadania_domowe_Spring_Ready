@@ -55,13 +55,15 @@ public class SongsService {
         return songResponse;
     }
 
-    public void deleteSongById(String id) throws JsonProcessingException {
+    public void deleteSongById(String id) {
         String json = songsProxy.makeDeleteSongByIdRequest(id);
-        if (json != null) {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.readValue(json, ResponseSongs.class);
-            log.info("Song by id:" + id + " - have been deleted");
+        if (json == null) {
+            log.error(getJsonSongsWasNull());
+            return;
         }
+        songsMapper.mapJsonToSongsResponse(json);
+        log.info("Song by id:" + id + " - have been deleted");
+
     }
 
     public void putSong(String id, String song, String artist) throws JsonProcessingException {
