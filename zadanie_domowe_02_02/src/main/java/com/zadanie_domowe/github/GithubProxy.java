@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(value = "github-client")
+@FeignClient(value = "github-client", configuration = GithubFeignConfig.class)
 public interface GithubProxy {
 
 //    https://api.github.com/users/abramovich-maks/repos
@@ -18,7 +18,7 @@ public interface GithubProxy {
     );
 
 
-//    https://api.github.com/repos/abramovich-maks/SproutSync/branches
+    //    https://api.github.com/repos/abramovich-maks/SproutSync/branches
     @GetMapping("/repos/{userName}/{repoName}/branches")
     List<BranchesResponse> makeBranchesRequest(
             @PathVariable String userName,
