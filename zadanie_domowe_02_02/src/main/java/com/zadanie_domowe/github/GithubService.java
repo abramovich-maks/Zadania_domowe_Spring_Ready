@@ -16,4 +16,8 @@ public class GithubService {
     public List<GithubResponse> getGithubProxy(String username) {
         return githubProxy.makeSearchRequest(username);
     }
+
+    public List<BranchesResponse> getBranches(String userName, String repoName) {
+        return githubProxy.makeBranchesRequest(userName, repoName);
+    }
 }

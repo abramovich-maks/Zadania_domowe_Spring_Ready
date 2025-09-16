@@ -18,7 +18,12 @@ public class GithubController {
     }
 
     @GetMapping("/{username}/repos")
-    public List<GithubResponse> listReposWithBranches(@PathVariable String username) {
+    public List<GithubResponse> listRepos(@PathVariable String username) {
        return githubService.getGithubProxy(username);
+    }
+
+    @GetMapping("/{userName}/{repoName}/branches")
+    public List<BranchesResponse> listBranches(@PathVariable String userName,@PathVariable String repoName) {
+        return githubService.getBranches(userName,repoName);
     }
 }

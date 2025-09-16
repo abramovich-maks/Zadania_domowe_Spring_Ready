@@ -16,4 +16,12 @@ public interface GithubProxy {
     List<GithubResponse> makeSearchRequest(
             @PathVariable String userName
     );
+
+
+//    https://api.github.com/repos/abramovich-maks/SproutSync/branches
+    @GetMapping("/repos/{userName}/{repoName}/branches")
+    List<BranchesResponse> makeBranchesRequest(
+            @PathVariable String userName,
+            @PathVariable String repoName
+    );
 }
