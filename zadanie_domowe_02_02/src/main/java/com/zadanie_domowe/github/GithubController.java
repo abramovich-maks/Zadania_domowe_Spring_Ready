@@ -17,13 +17,18 @@ public class GithubController {
         this.githubService = githubService;
     }
 
-    @GetMapping("/{username}/repos")
-    public List<GithubResponse> listRepos(@PathVariable String username) {
-       return githubService.getGithubProxy(username);
-    }
+//    @GetMapping("/{username}/repos")
+//    public List<GithubResponse> listRepos(@PathVariable String username) {
+//       return githubService.getGithubProxy(username);
+//    }
 
     @GetMapping("/{userName}/{repoName}/branches")
     public List<BranchesResponse> listBranches(@PathVariable String userName,@PathVariable String repoName) {
         return githubService.getBranches(userName,repoName);
+    }
+
+    @GetMapping("/{username}/repos")
+    public List<UserResponse> listRepos(@PathVariable String username) {
+        return githubService.getRepoWithBranches(username);
     }
 }
