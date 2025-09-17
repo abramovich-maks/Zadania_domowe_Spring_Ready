@@ -1,8 +1,9 @@
 package com.zadanie_domowe.github.infrastructure.controller;
 
-import com.zadanie_domowe.github.BranchesResponse;
+import com.zadanie_domowe.github.infrastructure.controller.dto.response.BranchDTO;
 import com.zadanie_domowe.github.domain.service.GithubService;
-import com.zadanie_domowe.github.UserResponse;
+import com.zadanie_domowe.github.infrastructure.controller.dto.response.RepoWithBranchesDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +27,13 @@ public class GithubController {
 //    }
 
     @GetMapping("/{userName}/{repoName}/branches")
-    public List<BranchesResponse> listBranches(@PathVariable String userName, @PathVariable String repoName) {
-        return githubService.getBranches(userName,repoName);
+    public List<BranchDTO> listBranches(@PathVariable String userName, @PathVariable String repoName) {
+        return githubService.getBranches(userName, repoName);
     }
 
     @GetMapping("/{username}/repos")
-    public List<UserResponse> listRepos(@PathVariable String username) {
-        return githubService.getRepoWithBranches(username);
+    public ResponseEntity<List<RepoWithBranchesDTO>> listRepos(@PathVariable String username) {
+        List<RepoWithBranchesDTO> allReposWithBranches = githubService.getRepoWithBranches(username);
+        return ResponseEntity.ok(allReposWithBranches);
     }
 }

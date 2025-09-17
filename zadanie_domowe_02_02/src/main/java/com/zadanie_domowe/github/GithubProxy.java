@@ -1,6 +1,7 @@
 package com.zadanie_domowe.github;
 
 
+import com.zadanie_domowe.github.infrastructure.controller.dto.response.BranchDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ public interface GithubProxy {
 
     //    https://api.github.com/repos/abramovich-maks/SproutSync/branches
     @GetMapping("/repos/{userName}/{repoName}/branches")
-    List<BranchesResponse> makeBranchesRequest(
+    List<BranchDTO> makeBranchesRequest(
             @PathVariable String userName,
             @PathVariable String repoName
     );

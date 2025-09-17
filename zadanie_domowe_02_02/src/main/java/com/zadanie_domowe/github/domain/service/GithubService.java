@@ -1,9 +1,9 @@
 package com.zadanie_domowe.github.domain.service;
 
-import com.zadanie_domowe.github.BranchesResponse;
+import com.zadanie_domowe.github.infrastructure.controller.dto.response.BranchDTO;
 import com.zadanie_domowe.github.GithubProxy;
 import com.zadanie_domowe.github.GithubResponse;
-import com.zadanie_domowe.github.UserResponse;
+import com.zadanie_domowe.github.infrastructure.controller.dto.response.RepoWithBranchesDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,14 +22,14 @@ public class GithubService {
         return githubProxy.makeSearchRequest(username);
     }
 
-    public List<BranchesResponse> getBranches(String userName, String repoName) {
+    public List<BranchDTO> getBranches(String userName, String repoName) {
         return githubProxy.makeBranchesRequest(userName, repoName);
     }
 
-    public List<UserResponse> getRepoWithBranches(String userName) {
+    public List<RepoWithBranchesDTO> getRepoWithBranches(String userName) {
         List<GithubResponse> allRepos = githubProxy.makeSearchRequest(userName);
 
-        List<UserResponse> response = new ArrayList<>();
+        List<RepoWithBranchesDTO> response = new ArrayList<>();
 
         for (GithubResponse notFork : allRepos) {
             if (notFork.fork()) {
@@ -39,10 +39,10 @@ public class GithubService {
             String owner = notFork.owner().login();
             String repoName = notFork.name();
 
-            List<BranchesResponse> allBranches = githubProxy.makeBranchesRequest(owner, repoName).stream()
-                    .map(b -> new BranchesResponse(b.name(), b.commit()))
+            List<BranchDTO> allBranches = githubProxy.makeBranchesRequest(owner, repoName).stream()
+                    .map(b -> new BranchDTO(b.name(), b.commit()))
                     .toList();
-            response.add(new UserResponse(repoName, owner, allBranches));
+            response.add(new RepoWithBranchesDTO(repoName, owner, allBranches));
         }
         return response;
     }
