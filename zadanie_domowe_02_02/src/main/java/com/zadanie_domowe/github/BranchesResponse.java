@@ -1,4 +1,6 @@
 package com.zadanie_domowe.github;
 
-public record BranchesResponse(String name,Commit commit) {
+import com.zadanie_domowe.github.domain.model.Commit;
+
+public record BranchesResponse(String name, Commit commit) {
 }

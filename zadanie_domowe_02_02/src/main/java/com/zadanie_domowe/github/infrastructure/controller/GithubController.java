@@ -1,5 +1,8 @@
-package com.zadanie_domowe.github;
+package com.zadanie_domowe.github.infrastructure.controller;
 
+import com.zadanie_domowe.github.BranchesResponse;
+import com.zadanie_domowe.github.domain.service.GithubService;
+import com.zadanie_domowe.github.UserResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +26,7 @@ public class GithubController {
 //    }
 
     @GetMapping("/{userName}/{repoName}/branches")
-    public List<BranchesResponse> listBranches(@PathVariable String userName,@PathVariable String repoName) {
+    public List<BranchesResponse> listBranches(@PathVariable String userName, @PathVariable String repoName) {
         return githubService.getBranches(userName,repoName);
     }
 

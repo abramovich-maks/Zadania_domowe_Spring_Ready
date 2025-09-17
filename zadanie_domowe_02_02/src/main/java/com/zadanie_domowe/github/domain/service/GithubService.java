@@ -1,5 +1,9 @@
-package com.zadanie_domowe.github;
+package com.zadanie_domowe.github.domain.service;
 
+import com.zadanie_domowe.github.BranchesResponse;
+import com.zadanie_domowe.github.GithubProxy;
+import com.zadanie_domowe.github.GithubResponse;
+import com.zadanie_domowe.github.UserResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
