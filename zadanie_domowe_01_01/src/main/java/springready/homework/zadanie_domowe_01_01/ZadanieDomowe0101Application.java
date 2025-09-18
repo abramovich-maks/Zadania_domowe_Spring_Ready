@@ -26,14 +26,14 @@ public class ZadanieDomowe0101Application {
     @EventListener(ApplicationStartedEvent.class)
     public void run() throws JsonProcessingException {
 
-//        quoterService.fetchOneQuoterByNumber();
+        quoterService.fetchOneQuoterByNumber("111");
 //        quoterService.fetchRandomQuoter();
 //        quoterService.fetchAllQuoters();
 //        quoterService.fetchWithRequestParam(1L);
-//        quoterService.postQuote("test quoter");
+//        quoterService.postQuote("Blsdvnjkefbkveaijdc");
 //        quoterService.deleteQuote("13");
 
-        quoterService.getWithHeader();
+//        quoterService.getWithHeader();
 
 
     }

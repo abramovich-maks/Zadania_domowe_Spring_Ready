@@ -17,8 +17,8 @@ public class QuoterService {
         this.quoteProxy = quoteProxy;
     }
 
-    public void fetchOneQuoterByNumber() throws JsonProcessingException {
-        String jsonByNumber = quoteProxy.getQuoteById("1");
+    public void fetchOneQuoterByNumber(String num) throws JsonProcessingException {
+        String jsonByNumber = quoteProxy.getQuoteById(num);
         if (jsonByNumber != null) {
             Quote quoteByNumber = mapJsonToQuoterResponse(jsonByNumber);
             log.info(quoteByNumber.value());
