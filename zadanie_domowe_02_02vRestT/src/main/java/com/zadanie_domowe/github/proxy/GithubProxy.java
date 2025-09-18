@@ -2,6 +2,7 @@ package com.zadanie_domowe.github.proxy;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +31,12 @@ public class GithubProxy {
                 .host(url)
                 .path("/users/" + user + "/repos");
         HttpHeaders headers = new HttpHeaders();
+        HttpEntity<GithubResponse> entity = new HttpEntity<>(headers);
         headers.add("Accept", "application/json");
         ResponseEntity<String> response = restTemplate.exchange(
                 builder.build().toUri(),
                 HttpMethod.GET,
-                null,
+                entity,
                 String.class
         );
 
