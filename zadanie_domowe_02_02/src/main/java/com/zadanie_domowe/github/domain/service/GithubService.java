@@ -4,12 +4,15 @@ import com.zadanie_domowe.github.infrastructure.controller.dto.response.BranchDT
 import com.zadanie_domowe.github.GithubProxy;
 import com.zadanie_domowe.github.GithubResponse;
 import com.zadanie_domowe.github.infrastructure.controller.dto.response.RepoWithBranchesDTO;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
+@Log4j2
 public class GithubService {
 
     private final GithubProxy githubProxy;
@@ -27,6 +30,10 @@ public class GithubService {
     }
 
     public List<RepoWithBranchesDTO> getRepoWithBranches(String userName) {
+        if (userName == null || userName.isBlank()) {
+            log.warn("Empty username");
+            return Collections.emptyList();
+        }
         List<GithubResponse> allRepos = githubProxy.makeSearchRequest(userName);
 
         List<RepoWithBranchesDTO> response = new ArrayList<>();
