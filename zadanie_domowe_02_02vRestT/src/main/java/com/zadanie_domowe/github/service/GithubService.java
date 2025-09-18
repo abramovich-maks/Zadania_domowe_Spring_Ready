@@ -1,8 +1,10 @@
-package com.zadanie_domowe.github;
+package com.zadanie_domowe.github.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zadanie_domowe.github.proxy.GithubProxy;
+import com.zadanie_domowe.github.proxy.GithubResult;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 

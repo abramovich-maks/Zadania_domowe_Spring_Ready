@@ -1,4 +1,4 @@
-package com.zadanie_domowe.github;
+package com.zadanie_domowe.github.proxy;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

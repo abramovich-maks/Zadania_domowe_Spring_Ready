@@ -1,8 +1,8 @@
 package com.zadanie_domowe;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.zadanie_domowe.github.GithubResult;
-import com.zadanie_domowe.github.GithubService;
+import com.zadanie_domowe.github.proxy.GithubResult;
+import com.zadanie_domowe.github.service.GithubService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
