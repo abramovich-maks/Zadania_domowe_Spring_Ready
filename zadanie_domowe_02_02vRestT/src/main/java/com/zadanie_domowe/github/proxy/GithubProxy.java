@@ -42,4 +42,23 @@ public class GithubProxy {
 
         return response.getBody();
     }
+
+    //    https://api.github.com/repos/abramovich-maks/SproutSync/branches
+    public String makeReposBranches(String userName, String repoName) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .newInstance()
+                .scheme("https")
+                .host(url)
+                .path("/repos/" + userName + "/" + repoName + "/branches");
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<BranchesResponse> entity = new HttpEntity<>(headers);
+        headers.add("Accept", "application/json");
+        ResponseEntity<String> response = restTemplate.exchange(
+                builder.build().toUri(),
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
+    return response.getBody();
+    }
 }
