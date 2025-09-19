@@ -1,12 +1,9 @@
 package com.zadanie_domowe.github.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zadanie_domowe.github.BranchDTO;
-import com.zadanie_domowe.github.RepoWithBranchesDTO;
+import com.zadanie_domowe.github.controller.BranchDTO;
+import com.zadanie_domowe.github.controller.RepoWithBranchesDTO;
 import com.zadanie_domowe.github.proxy.*;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,36 +16,41 @@ import java.util.List;
 public class GithubService {
 
     private final GithubProxy githubClient;
-    private final ObjectMapper objectMapper;
+    private final GithubMapper githubMapper;
 
-    public GithubService(GithubProxy githubClient, ObjectMapper objectMapper) {
+    public GithubService(GithubProxy githubClient, GithubMapper githubMapper) {
         this.githubClient = githubClient;
-        this.objectMapper = objectMapper;
+        this.githubMapper = githubMapper;
     }
 
-    private GithubResponse fetchUserRepos(String userName) throws JsonProcessingException {
+
+    private GithubResponse fetchUserRepos(String userName) {
         String json = githubClient.makeUserRepo(userName);
         if (json == null) {
             log.error("json was null ");
             return new GithubResponse(new ArrayList<>());
         }
-        GithubResult[] response = objectMapper.readValue(json, GithubResult[].class);
-        List<GithubResult> list = Arrays.asList(response);
+        GithubResult[] githubResults = githubMapper.mapJsonToGithubResults(json);
+        List<GithubResult> list = Arrays.asList(githubResults);
         return new GithubResponse(new ArrayList<>(list));
     }
 
-    private ResultResponseBranch fetchBranchRepos(String userName, String repoName) throws JsonProcessingException {
+
+
+    private ResultResponseBranch fetchBranchRepos(String userName, String repoName) {
         String json = githubClient.makeReposBranches(userName, repoName);
         if (json == null) {
             log.error("json was null ");
             return new ResultResponseBranch(new ArrayList<>());
         }
-        BranchesResponse[] response = objectMapper.readValue(json, BranchesResponse[].class);
+        BranchesResponse[] response = githubMapper.mapJsonToBranches(json);
         List<BranchesResponse> list = Arrays.asList(response);
         return new ResultResponseBranch(new ArrayList<>(list));
     }
 
-    public List<RepoWithBranchesDTO> getRepoWithBranches(String userName) throws JsonProcessingException {
+
+
+    public List<RepoWithBranchesDTO> getRepoWithBranches(String userName) {
         if (userName == null || userName.isBlank()) {
             log.warn("Empty username");
             return Collections.emptyList();
