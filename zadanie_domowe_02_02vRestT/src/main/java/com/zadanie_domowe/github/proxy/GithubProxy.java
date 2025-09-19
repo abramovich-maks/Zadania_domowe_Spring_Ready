@@ -7,6 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -23,6 +25,10 @@ public class GithubProxy {
     @Value("${github.service.url}")
     String url;
 
+    @Value("${github.token:}")
+    String token;
+
+
     //    https://api.github.com/users/abramovich-maks/repos
     public String makeUserRepo(String user) {
         UriComponentsBuilder builder = UriComponentsBuilder
@@ -30,17 +36,31 @@ public class GithubProxy {
                 .scheme("https")
                 .host(url)
                 .path("/users/" + user + "/repos");
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<GithubResponse> entity = new HttpEntity<>(headers);
-        headers.add("Accept", "application/json");
-        ResponseEntity<String> response = restTemplate.exchange(
-                builder.build().toUri(),
-                HttpMethod.GET,
-                entity,
-                String.class
-        );
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Accept", "application/json");
+            headers.add("User-Agent", "AI-Assistant-GitHubClient"); // GitHub требует User-Agent
+            if (token != null && !token.isBlank()) {
+                headers.add("Authorization", "Bearer " + token);
+            }
+            HttpEntity<GithubResponse> entity = new HttpEntity<>(headers);
+            headers.add("Accept", "application/json");
+            ResponseEntity<String> response = restTemplate.exchange(
+                    builder.build().toUri(),
+                    HttpMethod.GET,
+                    entity,
+                    String.class
+            );
 
-        return response.getBody();
+            return response.getBody();
+        } catch (RestClientResponseException exception) {
+            String message = exception.getStatusText() + " " + exception.getStatusCode().value();
+            log.error(message);
+        } catch (RestClientException exception) {
+            String message = exception.getMessage();
+            log.error(message);
+        }
+        return null;
     }
 
     //    https://api.github.com/repos/abramovich-maks/SproutSync/branches
@@ -50,15 +70,29 @@ public class GithubProxy {
                 .scheme("https")
                 .host(url)
                 .path("/repos/" + userName + "/" + repoName + "/branches");
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<BranchesResponse> entity = new HttpEntity<>(headers);
-        headers.add("Accept", "application/json");
-        ResponseEntity<String> response = restTemplate.exchange(
-                builder.build().toUri(),
-                HttpMethod.GET,
-                entity,
-                String.class
-        );
-    return response.getBody();
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Accept", "application/json");
+            headers.add("User-Agent", "zadanie-domowe");
+            if (token != null && !token.isBlank()) {
+                headers.add("Authorization", "Bearer " + token);
+            }
+            HttpEntity<BranchesResponse> entity = new HttpEntity<>(headers);
+            headers.add("Accept", "application/json");
+            ResponseEntity<String> response = restTemplate.exchange(
+                    builder.build().toUri(),
+                    HttpMethod.GET,
+                    entity,
+                    String.class
+            );
+            return response.getBody();
+        } catch (RestClientResponseException exception) {
+            String message = exception.getStatusText() + " " + exception.getStatusCode().value();
+            log.error(message);
+        } catch (RestClientException exception) {
+            String message = exception.getMessage();
+            log.error(message);
+        }
+        return null;
     }
 }
