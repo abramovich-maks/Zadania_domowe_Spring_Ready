@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/github")
+@RequestMapping(value = "/api/github",  produces = "application/json")
 public class GithubController {
 
     private final GithubService githubService;
