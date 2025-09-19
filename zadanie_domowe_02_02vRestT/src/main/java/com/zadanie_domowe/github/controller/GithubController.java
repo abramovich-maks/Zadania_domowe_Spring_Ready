@@ -1,6 +1,6 @@
 package com.zadanie_domowe.github.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.zadanie_domowe.github.error.UserNotFoundException;
 import com.zadanie_domowe.github.service.GithubService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +21,11 @@ public class GithubController {
     }
 
     @GetMapping("/{username}/repos")
-    public ResponseEntity<List<RepoWithBranchesDTO>> listRepos(@PathVariable String username) throws JsonProcessingException {
+    public ResponseEntity<List<RepoWithBranchesDTO>> listRepos(@PathVariable String username) {
         List<RepoWithBranchesDTO> allReposWithBranches = githubService.getRepoWithBranches(username);
+        if (allReposWithBranches.isEmpty()) {
+            throw new UserNotFoundException("UserName: " + username + " not found");        }
+
         return ResponseEntity.ok(allReposWithBranches);
     }
 }
