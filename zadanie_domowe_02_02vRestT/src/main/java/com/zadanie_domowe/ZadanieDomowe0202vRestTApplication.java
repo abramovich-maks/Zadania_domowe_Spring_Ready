@@ -20,7 +20,7 @@ public class ZadanieDomowe0202vRestTApplication {
     }
 
     @EventListener(ApplicationStartedEvent.class)
-    public void run() throws JsonProcessingException {
+    public void run() {
         runner.start("abramovich-maks");
     }
 }
