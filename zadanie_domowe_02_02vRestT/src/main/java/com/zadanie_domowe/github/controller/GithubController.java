@@ -1,4 +1,4 @@
-package com.zadanie_domowe.github;
+package com.zadanie_domowe.github.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zadanie_domowe.github.service.GithubService;

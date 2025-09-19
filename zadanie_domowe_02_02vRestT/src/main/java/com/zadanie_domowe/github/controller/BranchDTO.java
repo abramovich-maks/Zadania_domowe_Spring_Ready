@@ -1,4 +1,4 @@
-package com.zadanie_domowe.github;
+package com.zadanie_domowe.github.controller;
 
 import com.zadanie_domowe.github.proxy.Commit;
 
