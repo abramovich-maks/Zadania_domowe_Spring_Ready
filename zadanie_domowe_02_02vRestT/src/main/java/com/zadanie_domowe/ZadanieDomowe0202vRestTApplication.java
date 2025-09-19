@@ -21,7 +21,7 @@ public class ZadanieDomowe0202vRestTApplication {
 
     @EventListener(ApplicationStartedEvent.class)
     public void run() throws JsonProcessingException {
-//        runner.start("abramovich-maks");
+        runner.start("abramovich-maks");
 
         runner.startBranchRepo("abramovich-maks","SproutSync");
     }

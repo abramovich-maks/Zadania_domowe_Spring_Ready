@@ -2,6 +2,7 @@ package com.zadanie_domowe;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zadanie_domowe.github.proxy.BranchesResponse;
+import com.zadanie_domowe.github.proxy.GithubResponse;
 import com.zadanie_domowe.github.proxy.GithubResult;
 import com.zadanie_domowe.github.proxy.ResultResponseBranch;
 import com.zadanie_domowe.github.service.GithubService;
@@ -22,13 +23,13 @@ public class MainApplicationRunner {
 
 
     public void start(String userName) throws JsonProcessingException {
-//        List<GithubResult> repos = githubService.fetchUserRepos(userName);
-//        for (GithubResult repo : repos) {
-//            log.info("Repo: {}, Owner: {}, Fork: {}",
-//                    repo.name(),
-//                    repo.owner().login(),
-//                    repo.fork());
-//        }
+        GithubResponse repos = githubService.fetchUserRepos(userName);
+        for (GithubResult repo : repos.resultList()) {
+            log.info("Repo: {}, Owner: {}, Fork: {}",
+                    repo.name(),
+                    repo.owner().login(),
+                    repo.fork());
+        }
     }
 
     public void startBranchRepo(String userName, String repoName) throws JsonProcessingException {
