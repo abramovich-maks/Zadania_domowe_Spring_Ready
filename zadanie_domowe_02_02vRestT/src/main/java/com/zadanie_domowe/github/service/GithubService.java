@@ -3,10 +3,7 @@ package com.zadanie_domowe.github.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zadanie_domowe.github.proxy.BranchesResponse;
-import com.zadanie_domowe.github.proxy.GithubProxy;
-import com.zadanie_domowe.github.proxy.GithubResult;
-import com.zadanie_domowe.github.proxy.ResultResponseBranch;
+import com.zadanie_domowe.github.proxy.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -27,19 +24,15 @@ public class GithubService {
         this.objectMapper = objectMapper;
     }
 
-    public List<GithubResult> fetchUserRepos(String userName) throws JsonProcessingException {
+    public GithubResponse fetchUserRepos(String userName) throws JsonProcessingException {
         String json = githubClient.makeUserRepo(userName);
         if (json == null) {
             log.error("json was null ");
-            return Collections.emptyList();
+            return new GithubResponse(new ArrayList<>());
         }
-
-        List<GithubResult> response = objectMapper.readValue(
-                json,
-                new TypeReference<List<GithubResult>>() {}
-        );
-
-        return response;
+        GithubResult[] response = objectMapper.readValue(json, GithubResult[].class);
+        List<GithubResult> list = Arrays.asList(response);
+        return new GithubResponse(new ArrayList<>(list));
     }
 
     public ResultResponseBranch fetchBranchRepos(String userName, String repoName) throws JsonProcessingException {
@@ -48,8 +41,7 @@ public class GithubService {
             log.error("json was null ");
             return new ResultResponseBranch(new ArrayList<>());
         }
-        BranchesResponse[] response = objectMapper.readValue(
-                json, BranchesResponse[].class);
+        BranchesResponse[] response = objectMapper.readValue(json, BranchesResponse[].class);
         List<BranchesResponse> list = Arrays.asList(response);
         return new ResultResponseBranch(new ArrayList<>(list));
     }
