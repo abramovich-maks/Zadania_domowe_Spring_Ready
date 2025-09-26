@@ -25,6 +25,7 @@ public class RepoDeleter {
     }
 
     public void deleteAllRepoByOwner(String owner) {
+        repoRetriever.existByOwner(owner);
         githubRepository.deleteAllByOwner(owner);
         log.info("Deleted all repository by owner: {}", owner);
     }

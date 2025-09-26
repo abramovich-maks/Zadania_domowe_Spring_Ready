@@ -24,4 +24,6 @@ public interface GithubRepository extends Repository<RepoEntity, Long> {
     void deleteAllByOwner(String owner);
 
     boolean existsById(Long id);
+
+    boolean existsByOwner(String owner);
 }

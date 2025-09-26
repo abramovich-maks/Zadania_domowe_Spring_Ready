@@ -32,4 +32,10 @@ public class RepoRetriever {
             throw new RepositoryNotFoundException("Repository with id: " + id + " not found");
         }
     }
+
+    public void existByOwner(String owner) {
+        if (!githubRepository.existsByOwner(owner)) {
+            throw new RepositoryNotFoundException("Repository by owner: " + owner + " not found");
+        }
+    }
 }
