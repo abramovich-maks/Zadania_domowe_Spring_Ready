@@ -1,4 +1,4 @@
-package com.zadanie_domowe.github.controller;
+package com.zadanie_domowe.github.controller.dto.response;
 
 import org.springframework.http.HttpStatus;
 
