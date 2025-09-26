@@ -29,4 +29,8 @@ public interface GithubRepository extends Repository<RepoEntity, Long> {
     boolean existsById(Long id);
 
     boolean existsByOwner(String owner);
+
+    @Modifying
+    @Query("UPDATE RepoEntity r SET r.owner = :#{#newRepo.owner}, r.name = :#{#newRepo.name} WHERE r.id = :id")
+    void updateById(Long id, RepoEntity newRepo);
 }

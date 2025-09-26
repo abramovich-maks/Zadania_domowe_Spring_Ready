@@ -51,4 +51,12 @@ public class ReposMapper {
     public static GetRepoByIdResponseDto mapFromRepoEntityToGetRepoByIdResponseDto(RepoEntity byId) {
         return new GetRepoByIdResponseDto(byId.getId(), byId.getOwner(), byId.getName());
     }
+
+    public static RepoEntity mapToUpdateRepoRequestDtoFromRepoEntity(UpdateRepoRequestDto request) {
+        return new RepoEntity(request.owner(), request.name());
+    }
+
+    public static UpdateRepoResponseDto mapToRepoEntityFromUpdateRepoResponseDto(RepoEntity newSong) {
+        return new UpdateRepoResponseDto(newSong.getOwner(), newSong.getName());
+    }
 }

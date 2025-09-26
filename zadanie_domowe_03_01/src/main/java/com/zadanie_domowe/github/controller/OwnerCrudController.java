@@ -6,6 +6,8 @@ import com.zadanie_domowe.github.domain.model.RepoEntity;
 import com.zadanie_domowe.github.domain.service.RepoAdder;
 import com.zadanie_domowe.github.domain.service.RepoDeleter;
 import com.zadanie_domowe.github.domain.service.RepoRetriever;
+import com.zadanie_domowe.github.domain.service.RepoUpdater;
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +24,13 @@ public class OwnerCrudController {
     private final RepoRetriever repoRetriever;
     private final RepoAdder repoAdder;
     private final RepoDeleter repoDeleter;
+    private final RepoUpdater repoUpdater;
 
-    public OwnerCrudController(RepoRetriever repoRetriever, RepoAdder repoAdder, RepoDeleter repoDeleter) {
+    public OwnerCrudController(RepoRetriever repoRetriever, RepoAdder repoAdder, RepoDeleter repoDeleter, RepoUpdater repoUpdater) {
         this.repoRetriever = repoRetriever;
         this.repoAdder = repoAdder;
         this.repoDeleter = repoDeleter;
+        this.repoUpdater = repoUpdater;
     }
 
     @GetMapping("/repos")
@@ -69,6 +73,14 @@ public class OwnerCrudController {
     public ResponseEntity<DeleteAllReposByOwnerResponseDto> deleteAllRepoByOwner(@PathVariable String ownerName) {
         repoDeleter.deleteAllRepoByOwner(ownerName);
         DeleteAllReposByOwnerResponseDto body = mapFromRepoEntityToDeleteAllReposByOwnerResponseDto(ownerName);
+        return ResponseEntity.ok(body);
+    }
+
+    @PutMapping("/repos/{id}")
+    public ResponseEntity<UpdateRepoResponseDto> update(@PathVariable Long id, @RequestBody @Valid UpdateRepoRequestDto request) {
+        RepoEntity newSong = mapToUpdateRepoRequestDtoFromRepoEntity(request);
+        repoUpdater.updateById(id, newSong);
+        UpdateRepoResponseDto body = mapToRepoEntityFromUpdateRepoResponseDto(newSong);
         return ResponseEntity.ok(body);
     }
 }
