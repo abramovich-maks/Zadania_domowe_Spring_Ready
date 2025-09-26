@@ -19,6 +19,11 @@ public class RepoRetriever {
         this.githubRepository = githubRepository;
     }
 
+    public RepoEntity findById(Long id) {
+        return githubRepository.findById(id)
+                .orElseThrow(() -> new RepositoryNotFoundException("Repository with id: " + id + " not found"));
+    }
+
     public List<RepoEntity> findAllRepo() {
         return githubRepository.findAll();
     }

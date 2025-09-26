@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GithubRepository extends Repository<RepoEntity, Long> {
 
@@ -14,6 +15,8 @@ public interface GithubRepository extends Repository<RepoEntity, Long> {
     List<RepoEntity> findAll();
 
     List<RepoEntity> findRepoByOwner(String owner);
+
+    Optional<RepoEntity> findById(Long id);
 
     @Modifying
     @Query("delete from RepoEntity r where r.id = :id")

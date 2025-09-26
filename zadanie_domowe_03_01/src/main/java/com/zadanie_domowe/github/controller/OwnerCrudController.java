@@ -1,9 +1,7 @@
 package com.zadanie_domowe.github.controller;
 
 import com.zadanie_domowe.github.controller.dto.request.CreateRequestDto;
-import com.zadanie_domowe.github.controller.dto.response.CreateReposResponseDto;
-import com.zadanie_domowe.github.controller.dto.response.GetAllReposResponseDto;
-import com.zadanie_domowe.github.controller.dto.response.GetReposByOwnerResponseDto;
+import com.zadanie_domowe.github.controller.dto.response.*;
 import com.zadanie_domowe.github.domain.model.RepoEntity;
 import com.zadanie_domowe.github.domain.service.RepoAdder;
 import com.zadanie_domowe.github.domain.service.RepoDeleter;
@@ -35,6 +33,13 @@ public class OwnerCrudController {
     public ResponseEntity<GetAllReposResponseDto> getAllRepo() {
         List<RepoEntity> allRepo = repoRetriever.findAllRepo();
         GetAllReposResponseDto responseDto = mapFromRepoEntityToGetAllReposResponseDto(allRepo);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/repos/{id}")
+    public ResponseEntity<GetRepoByIdResponseDto> getRepoById(@PathVariable Long id) {
+        RepoEntity byId = repoRetriever.findById(id);
+        GetRepoByIdResponseDto responseDto = mapFromRepoEntityToGetRepoByIdResponseDto(byId);
         return ResponseEntity.ok(responseDto);
     }
 

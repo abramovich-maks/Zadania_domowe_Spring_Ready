@@ -1,10 +1,7 @@
 package com.zadanie_domowe.github.controller;
 
 import com.zadanie_domowe.github.controller.dto.request.CreateRequestDto;
-import com.zadanie_domowe.github.controller.dto.response.CreateReposResponseDto;
-import com.zadanie_domowe.github.controller.dto.response.GetAllReposResponseDto;
-import com.zadanie_domowe.github.controller.dto.response.GetReposByOwnerResponseDto;
-import com.zadanie_domowe.github.controller.dto.response.ReposResponseDto;
+import com.zadanie_domowe.github.controller.dto.response.*;
 import com.zadanie_domowe.github.domain.model.RepoEntity;
 import org.springframework.http.HttpStatus;
 
@@ -49,5 +46,9 @@ public class ReposMapper {
 
     public static DeleteAllReposByOwnerResponseDto mapFromRepoEntityToDeleteAllReposByOwnerResponseDto(String ownerName) {
         return new DeleteAllReposByOwnerResponseDto("All repository by owner: " + ownerName + " has been deleted.", HttpStatus.OK);
+    }
+
+    public static GetRepoByIdResponseDto mapFromRepoEntityToGetRepoByIdResponseDto(RepoEntity byId) {
+        return new GetRepoByIdResponseDto(byId.getId(), byId.getOwner(), byId.getName());
     }
 }
