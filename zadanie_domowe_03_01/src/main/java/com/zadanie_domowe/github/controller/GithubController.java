@@ -1,5 +1,6 @@
 package com.zadanie_domowe.github.controller;
 
+import com.zadanie_domowe.github.controller.dto.RepoWithBranchesDTO;
 import com.zadanie_domowe.github.error.UserNotFoundException;
 import com.zadanie_domowe.github.service.GithubService;
 import org.springframework.http.ResponseEntity;
