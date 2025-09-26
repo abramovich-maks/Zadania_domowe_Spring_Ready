@@ -11,12 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class RepoDeleter {
 
     private final GithubRepository githubRepository;
+    private final RepoRetriever repoRetriever;
 
-    public RepoDeleter(GithubRepository githubRepository) {
+    public RepoDeleter(GithubRepository githubRepository, RepoRetriever repoRetriever) {
         this.githubRepository = githubRepository;
+        this.repoRetriever = repoRetriever;
     }
 
     public void deleteById(Long id) {
+        repoRetriever.existById(id);
         githubRepository.deleteById(id);
         log.info("Deleted repository by id: {}", id);
     }

@@ -22,4 +22,6 @@ public interface GithubRepository extends Repository<RepoEntity, Long> {
     @Modifying
     @Query("delete from RepoEntity r where r.owner = :owner")
     void deleteAllByOwner(String owner);
+
+    boolean existsById(Long id);
 }
