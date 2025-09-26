@@ -2,7 +2,9 @@ package com.zadanie_domowe.github.service;
 
 import com.zadanie_domowe.github.controller.BranchDTO;
 import com.zadanie_domowe.github.controller.RepoWithBranchesDTO;
+import com.zadanie_domowe.github.model.OwnerEntity;
 import com.zadanie_domowe.github.proxy.*;
+import com.zadanie_domowe.github.repository.GithubRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,12 @@ public class GithubService {
 
     private final GithubProxy githubClient;
     private final GithubMapper githubMapper;
+    private final GithubRepository githubRepository;
 
-    public GithubService(GithubProxy githubClient, GithubMapper githubMapper) {
+    public GithubService(GithubProxy githubClient, GithubMapper githubMapper, GithubRepository githubRepository) {
         this.githubClient = githubClient;
         this.githubMapper = githubMapper;
+        this.githubRepository = githubRepository;
     }
 
 
@@ -65,6 +69,9 @@ public class GithubService {
 
             String owner = notFork.owner().login();
             String repoName = notFork.name();
+
+            OwnerEntity ownerToDb = new OwnerEntity(owner,repoName);
+            githubRepository.save(ownerToDb);
 
             List<BranchDTO> allBranches = fetchBranchRepos(owner, repoName).responses().stream()
                     .map(b -> new BranchDTO(b.name(), b.commit()))
