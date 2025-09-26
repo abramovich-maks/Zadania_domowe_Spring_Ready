@@ -1,4 +1,4 @@
-package com.zadanie_domowe.github.model;
+package com.zadanie_domowe.github.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,12 +6,12 @@ import lombok.Getter;
 @Entity
 @Table(name = "repo")
 @Getter
-public class OwnerEntity {
+public class RepoEntity {
 
-    public OwnerEntity() {
+    public RepoEntity() {
     }
 
-    public OwnerEntity(String owner, String name) {
+    public RepoEntity(String owner, String name) {
         this.owner = owner;
         this.name = name;
     }
