@@ -1,6 +1,6 @@
 package com.zadanie_domowe.github.controller;
 
-import com.zadanie_domowe.github.controller.dto.RepoWithBranchesDTO;
+import com.zadanie_domowe.github.controller.dto.response.RepoWithBranchesDtoResponse;
 import com.zadanie_domowe.github.error.UserNotFoundException;
 import com.zadanie_domowe.github.service.GithubService;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class GithubController {
     }
 
     @GetMapping("/{username}/repos")
-    public ResponseEntity<List<RepoWithBranchesDTO>> listRepos(@PathVariable String username) {
-        List<RepoWithBranchesDTO> allReposWithBranches = githubService.getRepoWithBranches(username);
+    public ResponseEntity<List<RepoWithBranchesDtoResponse>> listRepos(@PathVariable String username) {
+        List<RepoWithBranchesDtoResponse> allReposWithBranches = githubService.getRepoWithBranches(username);
         if (allReposWithBranches.isEmpty()) {
             throw new UserNotFoundException("UserName: " + username + " not found");        }
 

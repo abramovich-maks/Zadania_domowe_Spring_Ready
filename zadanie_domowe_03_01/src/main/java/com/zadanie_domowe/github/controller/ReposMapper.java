@@ -42,4 +42,12 @@ public class ReposMapper {
     public static RepoEntity mapFromCreateRequestDtoToRepoEntity(CreateRequestDto request) {
         return new RepoEntity(request.owner(), request.name());
     }
+
+    public static DeleteReposResponseDto mapFromRepoEntityToDeleteReposResponseDto(Long id) {
+        return new DeleteReposResponseDto("Repository with id: " + id + " have been deleted.", HttpStatus.OK);
+    }
+
+    public static DeleteAllReposByOwnerResponseDto mapFromRepoEntityToDeleteAllReposByOwnerResponseDto(String ownerName) {
+        return new DeleteAllReposByOwnerResponseDto("All repository by owner: " + ownerName + " has been deleted.", HttpStatus.OK);
+    }
 }

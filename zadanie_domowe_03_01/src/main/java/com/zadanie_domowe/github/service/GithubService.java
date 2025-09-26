@@ -1,7 +1,7 @@
 package com.zadanie_domowe.github.service;
 
-import com.zadanie_domowe.github.controller.dto.BranchDTO;
-import com.zadanie_domowe.github.controller.dto.RepoWithBranchesDTO;
+import com.zadanie_domowe.github.controller.dto.response.BranchDtoResponse;
+import com.zadanie_domowe.github.controller.dto.response.RepoWithBranchesDtoResponse;
 import com.zadanie_domowe.github.domain.model.RepoEntity;
 import com.zadanie_domowe.github.proxy.*;
 import com.zadanie_domowe.github.domain.repository.GithubRepository;
@@ -54,13 +54,13 @@ public class GithubService {
 
 
 
-    public List<RepoWithBranchesDTO> getRepoWithBranches(String userName) {
+    public List<RepoWithBranchesDtoResponse> getRepoWithBranches(String userName) {
         if (userName == null || userName.isBlank()) {
             log.warn("Empty username");
             return Collections.emptyList();
         }
         GithubResponse repos = fetchUserRepos(userName);
-        List<RepoWithBranchesDTO> response = new ArrayList<>();
+        List<RepoWithBranchesDtoResponse> response = new ArrayList<>();
 
         for (GithubResult notFork : repos.resultList()) {
             if (notFork.fork()) {
@@ -73,10 +73,10 @@ public class GithubService {
             RepoEntity ownerToDb = new RepoEntity(owner,repoName);
             githubRepository.save(ownerToDb);
 
-            List<BranchDTO> allBranches = fetchBranchRepos(owner, repoName).responses().stream()
-                    .map(b -> new BranchDTO(b.name(), b.commit()))
+            List<BranchDtoResponse> allBranches = fetchBranchRepos(owner, repoName).responses().stream()
+                    .map(b -> new BranchDtoResponse(b.name(), b.commit()))
                     .toList();
-            response.add(new RepoWithBranchesDTO(repoName, owner, allBranches));
+            response.add(new RepoWithBranchesDtoResponse(repoName, owner, allBranches));
         }
         return response;
     }
