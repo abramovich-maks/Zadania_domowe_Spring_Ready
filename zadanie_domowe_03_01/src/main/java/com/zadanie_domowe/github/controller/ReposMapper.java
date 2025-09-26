@@ -1,6 +1,7 @@
 package com.zadanie_domowe.github.controller;
 
 import com.zadanie_domowe.github.controller.dto.request.CreateRequestDto;
+import com.zadanie_domowe.github.controller.dto.request.UpdateRepoRequestDto;
 import com.zadanie_domowe.github.controller.dto.response.*;
 import com.zadanie_domowe.github.domain.model.RepoEntity;
 import org.springframework.http.HttpStatus;
@@ -56,7 +57,16 @@ public class ReposMapper {
         return new RepoEntity(request.owner(), request.name());
     }
 
-    public static UpdateRepoResponseDto mapToRepoEntityFromUpdateRepoResponseDto(RepoEntity newSong) {
-        return new UpdateRepoResponseDto(newSong.getOwner(), newSong.getName());
+    public static UpdateRepoResponseDto mapToRepoEntityFromUpdateRepoResponseDto(RepoEntity newRepo) {
+        return new UpdateRepoResponseDto(newRepo.getOwner(), newRepo.getName());
+    }
+
+    public static RepoEntity mapFromPartiallyUpdateRepoRequestDtoToRepoEntity(PartiallyUpdateRepoRequestDto request) {
+        return new RepoEntity(request.owner(), request.name());
+    }
+
+    public static PartiallyUpdateRepoResponseDto mapFromRepoEntityToPartiallyUpdateRepoResponseDto(RepoEntity savedRepo) {
+        ReposResponseDto reposDto = getReposDto(savedRepo);
+        return new PartiallyUpdateRepoResponseDto(reposDto);
     }
 }

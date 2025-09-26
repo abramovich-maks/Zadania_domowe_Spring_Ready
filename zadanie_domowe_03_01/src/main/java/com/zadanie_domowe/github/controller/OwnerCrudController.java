@@ -1,6 +1,7 @@
 package com.zadanie_domowe.github.controller;
 
 import com.zadanie_domowe.github.controller.dto.request.CreateRequestDto;
+import com.zadanie_domowe.github.controller.dto.request.UpdateRepoRequestDto;
 import com.zadanie_domowe.github.controller.dto.response.*;
 import com.zadanie_domowe.github.domain.model.RepoEntity;
 import com.zadanie_domowe.github.domain.service.RepoAdder;
@@ -78,9 +79,17 @@ public class OwnerCrudController {
 
     @PutMapping("/repos/{id}")
     public ResponseEntity<UpdateRepoResponseDto> update(@PathVariable Long id, @RequestBody @Valid UpdateRepoRequestDto request) {
-        RepoEntity newSong = mapToUpdateRepoRequestDtoFromRepoEntity(request);
-        repoUpdater.updateById(id, newSong);
-        UpdateRepoResponseDto body = mapToRepoEntityFromUpdateRepoResponseDto(newSong);
+        RepoEntity newRepo = mapToUpdateRepoRequestDtoFromRepoEntity(request);
+        repoUpdater.updateById(id, newRepo);
+        UpdateRepoResponseDto body = mapToRepoEntityFromUpdateRepoResponseDto(newRepo);
+        return ResponseEntity.ok(body);
+    }
+
+    @PatchMapping("/repos/{id}")
+    public ResponseEntity<PartiallyUpdateRepoResponseDto> partiallyUpdateRepo(@PathVariable Long id, @RequestBody PartiallyUpdateRepoRequestDto request) {
+        RepoEntity updatedRepo = mapFromPartiallyUpdateRepoRequestDtoToRepoEntity(request);
+        RepoEntity savedRepo = repoUpdater.updatePartiallyById(id, updatedRepo);
+        PartiallyUpdateRepoResponseDto body = mapFromRepoEntityToPartiallyUpdateRepoResponseDto(savedRepo);
         return ResponseEntity.ok(body);
     }
 }

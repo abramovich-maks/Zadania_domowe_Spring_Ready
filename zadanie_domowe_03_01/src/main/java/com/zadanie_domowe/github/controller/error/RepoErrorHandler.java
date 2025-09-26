@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice(assignableTypes = OwnerCrudController.class)
 @Log4j2
-public class SongErrorHandler {
+public class RepoErrorHandler {
 
     @ExceptionHandler(RepositoryNotFoundException.class)
     @ResponseBody
