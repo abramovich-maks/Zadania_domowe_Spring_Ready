@@ -17,7 +17,7 @@ public class SongErrorHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorReposResponseDto handleException(RepositoryNotFoundException exception) {
-        log.warn("SongNotFoundException while accessing song");
+        log.warn("RepositoryNotFoundException while accessing repository");
         return new ErrorReposResponseDto(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
