@@ -1,8 +1,10 @@
 package com.zadanie_domowe.github.service;
 
+import com.zadanie_domowe.github.RepoEntity;
 import com.zadanie_domowe.github.controller.BranchDTO;
 import com.zadanie_domowe.github.controller.RepoWithBranchesDTO;
 import com.zadanie_domowe.github.proxy.*;
+import com.zadanie_domowe.github.repository.GithubRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +19,13 @@ public class GithubService {
 
     private final GithubProxy githubClient;
     private final GithubMapper githubMapper;
+    private final GithubRepository githubRepository;
 
-    public GithubService(GithubProxy githubClient, GithubMapper githubMapper) {
+    public GithubService(GithubProxy githubClient, GithubMapper githubMapper, GithubRepository githubRepository) {
         this.githubClient = githubClient;
         this.githubMapper = githubMapper;
+        this.githubRepository = githubRepository;
     }
-
 
     private GithubResponse fetchUserRepos(String userName) {
         String json = githubClient.makeUserRepo(userName);
@@ -36,7 +39,6 @@ public class GithubService {
     }
 
 
-
     private ResultResponseBranch fetchBranchRepos(String userName, String repoName) {
         String json = githubClient.makeReposBranches(userName, repoName);
         if (json == null) {
@@ -47,7 +49,6 @@ public class GithubService {
         List<BranchesResponse> list = Arrays.asList(response);
         return new ResultResponseBranch(new ArrayList<>(list));
     }
-
 
 
     public List<RepoWithBranchesDTO> getRepoWithBranches(String userName) {
@@ -65,6 +66,9 @@ public class GithubService {
 
             String owner = notFork.owner().login();
             String repoName = notFork.name();
+
+            RepoEntity repoEntity = new RepoEntity(owner, repoName);
+            githubRepository.save(repoEntity);
 
             List<BranchDTO> allBranches = fetchBranchRepos(owner, repoName).responses().stream()
                     .map(b -> new BranchDTO(b.name(), b.commit()))
