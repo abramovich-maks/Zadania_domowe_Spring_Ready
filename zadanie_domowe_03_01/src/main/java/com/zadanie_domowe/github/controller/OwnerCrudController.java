@@ -1,6 +1,7 @@
 package com.zadanie_domowe.github.controller;
 
 import com.zadanie_domowe.github.controller.dto.request.CreateRequestDto;
+import com.zadanie_domowe.github.controller.dto.request.PartiallyUpdateRepoRequestDto;
 import com.zadanie_domowe.github.controller.dto.request.UpdateRepoRequestDto;
 import com.zadanie_domowe.github.controller.dto.response.*;
 import com.zadanie_domowe.github.domain.model.RepoEntity;
@@ -56,7 +57,7 @@ public class OwnerCrudController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateReposResponseDto> addRepos(@RequestBody CreateRequestDto request) {
+    public ResponseEntity<CreateReposResponseDto> addRepos(@RequestBody @Valid CreateRequestDto request) {
         RepoEntity entity = mapFromCreateRequestDtoToRepoEntity(request);
         RepoEntity saveRepo = repoAdder.addRepo(entity);
         CreateReposResponseDto createReposResponseDto = mapFromRepoEntityToCreateReposResponseDto(saveRepo);
